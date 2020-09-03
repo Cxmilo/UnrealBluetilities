@@ -7,7 +7,10 @@
 		{
 			"Name": "udemyBluetilities",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Blutility"
+			]
 		}
 	],
 	"Plugins": [
