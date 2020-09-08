@@ -26,8 +26,18 @@ public:
 	UFUNCTION(CallInEditor)
 	void RenameSelectedAssets(const FString SearchPattern, const FString ReplacePattern,const ESearchCase::Type SearchCase);
 
+	/**
+	*Check if a texture2d is a power of two resolution	
+	*/
+	
+	UFUNCTION(CallInEditor)
+	void CheckPowerofTwo_FromCode();
+
 
 private:
+
+	UFUNCTION()
+	bool IsPowerOfTwo(int32 NumberToCheck);
 
 	/**
 	 * Prints a message to the screen

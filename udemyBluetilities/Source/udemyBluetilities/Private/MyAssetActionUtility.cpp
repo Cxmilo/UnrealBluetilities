@@ -3,6 +3,8 @@
 
 #include "MyAssetActionUtility.h"
 #include "EditorUtilityLibrary.h"
+#include "Engine/Texture.h"
+
 
 
 #pragma  region Rename_Assets
@@ -11,7 +13,7 @@ void UMyAssetActionUtility::RenameSelectedAssets(const FString SearchPattern, co
 	//check if something needs to be done
 	if (SearchPattern.IsEmpty() || SearchPattern.Equals(ReplacePattern, SearchCase))
 	{
-		UE_LOG(LogTemp,Error,TEXT("Please Check your Patterns!!"));
+		UE_LOG(LogTemp, Error, TEXT("Please Check your Patterns!!"));
 	}
 
 	// Get the selected objects
@@ -37,9 +39,61 @@ void UMyAssetActionUtility::RenameSelectedAssets(const FString SearchPattern, co
 
 }
 
+
+
+#pragma endregion
+
+#pragma region Check_POT_TWO
+void UMyAssetActionUtility::CheckPowerofTwo_FromCode()
+{
+	TArray<UObject*> SelectedObjects = UEditorUtilityLibrary::GetSelectedAssets();
+
+	uint32 Counter = 0;
+
+	for (UObject* SelectedObject : SelectedObjects)
+	{
+		if (ensure(SelectedObject))
+		{
+			UTexture* Texture = dynamic_cast<UTexture*>(SelectedObject);
+
+			if (ensure(Texture))
+			{
+				int32 Width = static_cast<int32>(Texture->GetSurfaceWidth());
+				int32 Height = static_cast<int32>(Texture->GetSurfaceHeight());
+
+				if (!IsPowerOfTwo(Width) || !IsPowerOfTwo(Height))
+				{
+					PrintToScreen(SelectedObject->GetPathName() + " is not a power of 2 texture",FColor::Red);
+				}
+				else
+				{
+					++Counter;
+				}
+
+			}
+			else
+			{
+				PrintToScreen(SelectedObject->GetPathName() + "is not a texture", FColor::Red);
+			}
+		}
+	}
+
+	GiveFeedback("power of two", Counter);
+}
 #pragma endregion
 
 #pragma region Helper
+
+bool UMyAssetActionUtility::IsPowerOfTwo(int32 NumberToCheck)
+{
+	if (NumberToCheck == 0)
+	{
+		return false;
+	}
+
+	return (NumberToCheck & (NumberToCheck - 1)) == 0;
+}
+
 void UMyAssetActionUtility::PrintToScreen(FString Message, FColor Color)
 {
 	if (ensure(GEngine))
