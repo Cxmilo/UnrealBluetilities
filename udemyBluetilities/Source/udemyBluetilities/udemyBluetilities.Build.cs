@@ -8,7 +8,7 @@ public class udemyBluetilities : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Blutility", "UMG" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Blutility", "UMG", "EditorScriptingUtilities" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

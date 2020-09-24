@@ -54,6 +54,9 @@ public:
 	void AddPrefixes_FromCode();
 
 
+	UFUNCTION(CallInEditor)
+	void CleanupFolder_From_Code(FString ParentFolder = FString("/Game"));
+
 
 private:
 
