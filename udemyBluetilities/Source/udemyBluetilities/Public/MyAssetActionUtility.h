@@ -57,6 +57,15 @@ public:
 	UFUNCTION(CallInEditor)
 	void CleanupFolder_From_Code(FString ParentFolder = FString("/Game"));
 
+	/**
+	*Duplicate the selected Assets
+	*NumberODuplicates - The amount of duplicates to create
+	*bSave - Should the duplicates be saved immediately?
+	**/
+
+	UFUNCTION(CallInEditor)
+	void DuplicateAsset_FromCode(uint32 NumberOfDuplicates =1, bool bSave = true);
+
 
 private:
 
