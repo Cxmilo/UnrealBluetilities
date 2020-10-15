@@ -66,6 +66,14 @@ public:
 	UFUNCTION(CallInEditor)
 	void DuplicateAsset_FromCode(uint32 NumberOfDuplicates =1, bool bSave = true);
 
+	/**
+	 *Deletes Unused Assets
+	 *bDeleteImmediately - Delete them?
+	 **/
+
+	UFUNCTION(CallInEditor)
+	void RemoveUnusedAssets_FromCode(bool bDeleteImmediately);
+
 
 private:
 

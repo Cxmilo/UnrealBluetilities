@@ -5,6 +5,7 @@
 #include "EditorUtilityLibrary.h"
 #include "EditorAssetLibrary.h"
 #include "Engine/Texture.h"
+#include "Math/Color.h"
 
 
 
@@ -185,6 +186,58 @@ void UMyAssetActionUtility::DuplicateAsset_FromCode(uint32 NumberOfDuplicates /*
 		}
 	}
 	GiveFeedback("Duplicate Assets", Counter);
+}
+
+#pragma endregion
+
+#pragma region Remove_Unused_Assets
+
+void UMyAssetActionUtility::RemoveUnusedAssets_FromCode(bool bDeleteImmediately)
+{
+	TArray<UObject*> SelectedObjects = UEditorUtilityLibrary::GetSelectedAssets();
+	TArray<UObject*> UnusedObjects = TArray<UObject*>();
+
+	for (UObject* SelectedObject : SelectedObjects)
+	{
+		if (ensure(SelectedObject))
+		{
+			if (UEditorAssetLibrary::FindPackageReferencersForAsset(SelectedObject->GetPathName(), true).Num() <= 0)			{
+				UnusedObjects.Add(SelectedObject);
+			}
+		}
+	}
+
+	uint32 Counter = 0;
+
+	for (UObject* SelectedObject : UnusedObjects )
+	{
+		if (bDeleteImmediately)
+		{
+			if (UEditorAssetLibrary::DeleteLoadedAsset(SelectedObject))
+			{
+				++Counter;
+			}
+			else
+			{
+				PrintToScreen("Error deleting " + SelectedObject->GetPathName(), FColor::Red);
+			}
+		}
+		else
+		{
+			FString NewPath = FPaths::Combine(TEXT("/Game"), TEXT("Bin"), SelectedObject->GetName());
+			if (UEditorAssetLibrary::RenameLoadedAsset(SelectedObject, NewPath))
+			{
+				++Counter;
+			}
+			else
+			{
+				PrintToScreen("Error moving " + SelectedObject->GetPathName(), FColor::Red);
+			}
+		}
+	}
+
+	GiveFeedback(bDeleteImmediately ? "Deleted" : "Moved to bin:", Counter);
+
 }
 
 #pragma endregion
