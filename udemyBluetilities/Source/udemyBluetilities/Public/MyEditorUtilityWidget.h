@@ -31,7 +31,11 @@ public:
 		{ASkyLight::StaticClass(), "Lights"}
 
 	};
+
 		UFUNCTION(CallInEditor, BlueprintCallable)
 		void OrganizeWorldOutliner();
+
+		UFUNCTION(CallInEditor, BlueprintCallable)
+		void DeleteNullSMActors();
 	
 };
