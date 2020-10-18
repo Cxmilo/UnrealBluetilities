@@ -7,6 +7,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "Engine/ReflectionCapture.h"
 #include "Engine/SkyLight.h"
+#include "Engine/Texture.h"
 #include "MyEditorUtilityWidget.generated.h"
 
 
@@ -23,19 +24,41 @@ class UDEMYBLUETILITIES_API UMyEditorUtilityWidget : public UEditorUtilityWidget
 
 public:
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "General")
+	FString FolderPath = FString("/Game");
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "General")
+	bool bRecursive = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OrganizeWorldOutliner")
-	TMap<UClass*, FName> FolderMap =
-	{
+	TMap<UClass*, FName> FolderMap ={
 		{AStaticMeshActor::StaticClass(), "Static Meshes"},
 		{AReflectionCapture::StaticClass(), "ReflectionCaptures"},
 		{ASkyLight::StaticClass(), "Lights"}
 
 	};
 
-		UFUNCTION(CallInEditor, BlueprintCallable)
-		void OrganizeWorldOutliner();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TextureParams")
+	bool bSetRGB = true;
 
-		UFUNCTION(CallInEditor, BlueprintCallable)
-		void DeleteNullSMActors();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TextureParams")
+	TEnumAsByte<TextureCompressionSettings> Compression = TEnumAsByte<TextureCompressionSettings>(TextureCompressionSettings::TC_Masks);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TextureParams")
+	TArray<FString> LinearColorPattern = {
+	TEXT("_ORM"), TEXT("_OcclusionRoughnesMetallic"), TEXT("_Metallic"),
+	TEXT("_Roughness"), TEXT("_Mask")
+	};
+
+
+	UFUNCTION(CallInEditor, BlueprintCallable)
+	void OrganizeWorldOutliner();
+
+	UFUNCTION(CallInEditor, BlueprintCallable)
+	void DeleteNullSMActors();
+
+	UFUNCTION(CallInEditor, BlueprintCallable)
+	void SetTextureParameter();
+				
 	
 };

@@ -3,6 +3,7 @@
 
 #include "MyEditorUtilityWidget.h"
 #include "EditorLevelLibrary.h"
+#include "EditorAssetLibrary.h"
 
 
 #pragma region OrganizeWorldOutliner
@@ -45,4 +46,38 @@ void UMyEditorUtilityWidget::DeleteNullSMActors()
 	}
 }
 #pragma endregion
+
+
+#pragma region SetTextureParameters
+
+void UMyEditorUtilityWidget::SetTextureParameter()
+{
+	TArray<FString> AssetsInPath = UEditorAssetLibrary::ListAssets(FolderPath, bRecursive, false);
+	
+	for (FString AssetPath : AssetsInPath)
+	{
+		for (FString Pattern : LinearColorPattern)
+		{
+			if (AssetPath.Contains(Pattern))
+			{
+				UObject* Object = UEditorAssetLibrary::LoadAsset(AssetPath);
+				if (!ensure(Object))
+				{
+					return;
+				}
+
+				UTexture2D* Texture = dynamic_cast<UTexture2D*>(Object);
+				if (ensure(Texture))
+				{
+					Texture->SRGB = bSetRGB;
+					Texture->CompressionSettings = Compression;
+				}
+			}
+		}
+	}
+}
+#pragma endregion
+
+
+
 
