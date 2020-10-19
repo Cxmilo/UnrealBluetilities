@@ -99,6 +99,25 @@ void UMyEditorUtilityWidget::SearchAndReplace()
 #pragma endregion
 
 
+#pragma region RemoveRmptyFolders
+void UMyEditorUtilityWidget::RemoveEmptyFolders()
+{
+	TArray<FString> AssetsInPath = UEditorAssetLibrary::ListAssets(FolderPath, bRecursive, true);
+
+	for (FString Asset : AssetsInPath )
+	{
+		if (!UEditorAssetLibrary::DoesDirectoryHaveAssets(Asset,bRecursive))
+		{
+			UEditorAssetLibrary::DeleteDirectory(Asset);
+		}
+	}
+}
+#pragma endregion
+
+
+
+
+
 
 
 

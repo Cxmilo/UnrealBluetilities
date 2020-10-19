@@ -71,5 +71,6 @@ public:
 	UFUNCTION(CallInEditor, BlueprintCallable)
 	void SearchAndReplace();
 				
-	
+	UFUNCTION(CallInEditor, BlueprintCallable)
+	void RemoveEmptyFolders();
 };
