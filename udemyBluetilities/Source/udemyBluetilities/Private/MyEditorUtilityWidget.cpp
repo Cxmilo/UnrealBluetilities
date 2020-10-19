@@ -79,5 +79,28 @@ void UMyEditorUtilityWidget::SetTextureParameter()
 #pragma endregion
 
 
+#pragma region SearchAndReplace
+void UMyEditorUtilityWidget::SearchAndReplace()
+{
+	TArray<FString> AssetsInPath = UEditorAssetLibrary::ListAssets(FolderPath, bRecursive, false);
+	
+	for (FString AssetPath : AssetsInPath)
+	{
+		FString FileName = FPaths::GetCleanFilename(AssetPath);
+		if (FileName.Contains(SearchPattern, SearchCase))
+		{
+			FString NewAssetName = FileName.Replace(*SearchPattern, *ReplacePattern, SearchCase);
+			FString NewAssetPath = FPaths::Combine(FPaths::GetPath(AssetPath), NewAssetName);
+			UEditorAssetLibrary::RenameAsset(AssetPath, NewAssetPath);
+		}
+
+	}
+}
+#pragma endregion
+
+
+
+
+
 
 

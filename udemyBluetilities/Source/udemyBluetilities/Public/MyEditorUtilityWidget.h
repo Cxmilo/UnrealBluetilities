@@ -50,6 +50,14 @@ public:
 	TEXT("_Roughness"), TEXT("_Mask")
 	};
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SearchAndReplace")
+	FString SearchPattern;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SearchAndReplace")
+	FString ReplacePattern;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SearchAndReplace")
+	TEnumAsByte<ESearchCase::Type> SearchCase;
 
 	UFUNCTION(CallInEditor, BlueprintCallable)
 	void OrganizeWorldOutliner();
@@ -59,6 +67,9 @@ public:
 
 	UFUNCTION(CallInEditor, BlueprintCallable)
 	void SetTextureParameter();
+
+	UFUNCTION(CallInEditor, BlueprintCallable)
+	void SearchAndReplace();
 				
 	
 };
